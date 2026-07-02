@@ -1,0 +1,8 @@
+schema_version: "0.1.0"
+graph_schema_version: "0.1.0"
+scenario_schema_version: "0.1.0"
+sensor_schema_version: "0.1.0"
+post_processing_version: "0.1.0"
+label_rule_version: "0.1.0"
+dataset_schema_version: "0.1.0"
+prediction_schema_version: "0.1.0"

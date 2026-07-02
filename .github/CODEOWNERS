@@ -1,0 +1,15 @@
+# Replace handles after all members have joined the GitHub organization.
+/configs/ @anhanh2616
+/src/fire_smoke_dt/shared/ @anhanh2616
+/src/fire_smoke_dt/bim_graph/ @anhanh2616
+
+# Add the remaining member handles here:
+# /src/fire_smoke_dt/scenario/ @cfast-owner
+# /src/fire_smoke_dt/cfast_sim/ @cfast-owner
+# /src/fire_smoke_dt/iot_sim/ @iot-owner
+# /src/fire_smoke_dt/dataset/ @iot-owner
+# /src/fire_smoke_dt/models/ @ai-owner
+# /src/fire_smoke_dt/training/ @ai-owner
+# /src/fire_smoke_dt/fds_sim/ @fds-owner
+# /src/fire_smoke_dt/comparison/ @fds-owner
+# /dashboard/ @fds-owner

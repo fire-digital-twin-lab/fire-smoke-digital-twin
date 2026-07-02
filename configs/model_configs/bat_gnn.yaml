@@ -1,0 +1,21 @@
+model_id: bat_gnn_p0
+version: "0.1.0"
+input:
+  history_steps: 30
+  forecast_horizon_s: 30.0
+  use_graph: true
+  use_iot: true
+  use_boundary: true
+  use_system_state: true
+encoder:
+  graph_hidden_dim: 64
+  temporal_hidden_dim: 64
+heads:
+  smoke_classification: true
+  time_to_arrival_regression: true
+loss:
+  smoke: bce
+  tta: masked_huber
+  weights:
+    smoke: 1.0
+    tta: 1.0
