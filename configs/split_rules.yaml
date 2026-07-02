@@ -1,0 +1,19 @@
+version: "0.1.0"
+default_split:
+  mode: scenario
+  group_key: base_scenario_id
+  ratios:
+    train: 0.70
+    validation: 0.15
+    test: 0.15
+  seed: 2026
+rules:
+  keep_all_noise_variants_together: true
+  fit_preprocessing_on_train_only: true
+supported_modes:
+  - scenario
+  - holdout_fire_node
+  - holdout_fire_floor
+  - noise_robustness
+  - fds_reference
+  - debug_layout_transfer

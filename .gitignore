@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+
+# Research data and generated artifacts
+data/raw_ifc/*
+data/cfast_raw/*
+data/fds_raw/*
+data/processed/*
+data/datasets/*
+!data/**/.gitkeep
+!data/README.md
+outputs/*
+!outputs/README.md
+
+# Large model/simulation files
+*.ifc
+*.smv
+*.sf
+*.bf
+*.csv.out
+*.parquet
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.log
+
+# Frontend
+node_modules/
+dashboard/frontend/dist/

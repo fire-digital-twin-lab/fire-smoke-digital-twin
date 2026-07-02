@@ -1,0 +1,23 @@
+version: "0.1.0"
+required_fields:
+  - building_id
+  - scenario_id
+  - base_scenario_id
+  - fire_node
+  - fire_floor
+  - hrr_config
+  - soot_yield
+  - door_state_config
+  - system_state_config
+  - boundary_config
+  - t_end_s
+  - dt_out_s
+sampling:
+  strategy: controlled
+  seed: 2026
+  forbid_full_cartesian_by_default: true
+p0_factors:
+  fire_growth_class: [slow, medium, fast]
+  door_state: [open, closed]
+  sprinkler_state: [on, off]
+  exhaust_state: [on, off]

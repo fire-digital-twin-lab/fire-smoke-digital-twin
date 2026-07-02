@@ -1,0 +1,25 @@
+version: "0.1.0"
+presets:
+  clean:
+    gaussian_sigma: 0.0
+    delay_steps: 0
+    missing_probability: 0.0
+    faults: []
+  low_noise:
+    gaussian_sigma: 0.02
+    delay_steps: 1
+    missing_probability: 0.01
+    faults: []
+  medium_noise:
+    gaussian_sigma: 0.05
+    delay_steps: 2
+    missing_probability: 0.05
+    faults: []
+  faulty:
+    gaussian_sigma: 0.05
+    delay_steps: 2
+    missing_probability: 0.10
+    faults: [stuck, offline, drift, false_alarm]
+  no_iot:
+    enabled: false
+    representation: explicit_mask

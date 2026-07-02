@@ -1,0 +1,17 @@
+version: "0.1.0"
+coordinate_reference: building_local
+sensors:
+  - sensor_id: smoke_default
+    sensor_type: smoke
+    placement: per_selected_node
+    height_m: 2.4
+    sampling_rate_hz: 1.0
+  - sensor_id: temperature_default
+    sensor_type: temperature
+    placement: per_selected_node
+    height_m: 2.4
+    sampling_rate_hz: 1.0
+  - sensor_id: door_state_default
+    sensor_type: door_state
+    placement: per_door_edge
+    sampling_rate_hz: 1.0

@@ -1,0 +1,13 @@
+version: "0.1.0"
+smoke_label:
+  signal: obscuration_pct_per_m
+  threshold: 23.93
+  comparison: greater_or_equal
+  persistence_steps: 2
+forecast:
+  horizon_s: 30.0
+arrival:
+  invalid_value: null
+  require_valid_mask: true
+notes:
+  - "Threshold is a research operating threshold, not a legal hazard limit."

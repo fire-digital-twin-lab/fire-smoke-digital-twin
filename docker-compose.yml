@@ -1,0 +1,13 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: dashboard/backend/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      FIRE_SMOKE_DATA_DIR: /workspace/data
+      FIRE_SMOKE_OUTPUT_DIR: /workspace/outputs
+    volumes:
+      - ./:/workspace
+    command: uvicorn dashboard.backend.app.main:app --host 0.0.0.0 --port 8000 --reload
