@@ -1,10 +1,12 @@
-"""Run CFAST cases with explicit timeout and captured logs."""
+"""Run CFAST cases with explicit timeout, captured logs, and parallel batching."""
 
 from __future__ import annotations
 
+import concurrent.futures
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Sequence
 
 
 @dataclass(frozen=True)
@@ -13,9 +15,13 @@ class RunResult:
     stdout: str
     stderr: str
     elapsed_timeout: bool = False
+    scenario_id: str = ""
 
 
-def run_case(binary: str | Path, input_file: str | Path, *, timeout_s: float = 600) -> RunResult:
+def run_case(
+    binary: str | Path, input_file: str | Path, *, timeout_s: float = 600, scenario_id: str = ""
+) -> RunResult:
+    """Run a single CFAST case."""
     try:
         process = subprocess.run(
             [str(binary), str(input_file)],
@@ -24,6 +30,53 @@ def run_case(binary: str | Path, input_file: str | Path, *, timeout_s: float = 6
             timeout=timeout_s,
             check=False,
         )
-        return RunResult(process.returncode, process.stdout, process.stderr)
+        return RunResult(
+            returncode=process.returncode,
+            stdout=process.stdout,
+            stderr=process.stderr,
+            scenario_id=scenario_id,
+        )
     except subprocess.TimeoutExpired as exc:
-        return RunResult(-1, exc.stdout or "", exc.stderr or "", elapsed_timeout=True)
+        return RunResult(
+            returncode=-1,
+            stdout=exc.stdout or "",
+            stderr=exc.stderr or "",
+            elapsed_timeout=True,
+            scenario_id=scenario_id,
+        )
+
+
+def run_batch(
+    binary: str | Path,
+    inputs: Sequence[tuple[str, str | Path]],  # list of (scenario_id, path)
+    *,
+    timeout_s: float = 600,
+    max_workers: int | None = None,
+) -> list[RunResult]:
+    """Run multiple CFAST cases in parallel.
+    
+    inputs should be a list of tuples containing (scenario_id, input_file_path).
+    Supports resume by only providing the remaining inputs to run.
+    """
+    results: list[RunResult] = []
+    
+    with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
+        # Submit all tasks
+        futures = {
+            executor.submit(run_case, binary, input_path, timeout_s=timeout_s, scenario_id=scen_id): scen_id
+            for scen_id, input_path in inputs
+        }
+        
+        # Collect results as they complete
+        for future in concurrent.futures.as_completed(futures):
+            try:
+                res = future.result()
+                results.append(res)
+            except Exception as e:
+                # Handle unexpected executor errors
+                scen_id = futures[future]
+                results.append(
+                    RunResult(returncode=-99, stdout="", stderr=str(e), scenario_id=scen_id)
+                )
+                
+    return results

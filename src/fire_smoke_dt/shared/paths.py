@@ -9,3 +9,18 @@ PROJECT_ROOT = Path(__file__).resolve().parents[3]
 DATA_DIR = Path(os.getenv("FIRE_SMOKE_DATA_DIR", PROJECT_ROOT / "data"))
 OUTPUT_DIR = Path(os.getenv("FIRE_SMOKE_OUTPUT_DIR", PROJECT_ROOT / "outputs"))
 CONFIG_DIR = PROJECT_ROOT / "configs"
+
+
+def get_producer_version() -> str:
+    import subprocess
+    try:
+        result = subprocess.run(
+            ["git", "describe", "--tags", "--always", "--dirty"],
+            cwd=PROJECT_ROOT,
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        return result.stdout.strip()
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return "unknown"
