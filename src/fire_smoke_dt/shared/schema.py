@@ -73,4 +73,5 @@ class ArtifactEnvelope(BaseModel):
     producer_version: str
     config_hash: str
     created_at: str
+    units: dict[str, str]
     payload: dict[str, Any]

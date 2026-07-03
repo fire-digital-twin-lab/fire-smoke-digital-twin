@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import logging
 import math
 from typing import Any
+
+logger = logging.getLogger(__name__)
 
 
 def _format_time(t_end: float, dt_out: float) -> str:
@@ -11,11 +14,25 @@ def _format_time(t_end: float, dt_out: float) -> str:
 
 
 def _format_comp(node: dict[str, Any], idx: int) -> str:
-    # Estimate width and depth from area, assuming square for simplicity if exact geometry is missing
     area = node.get("area_m2") or 10.0
     height = node.get("ceiling_height_m") or node.get("height_m") or 3.0
-    width = math.sqrt(area)
-    depth = area / width
+
+    width = node.get("width_m")
+    depth = node.get("depth_m")
+
+    if not (width and depth):
+        # Fallback: estimate from area with type-specific aspect ratio
+        node_type = node.get("node_type", "room")
+        default_ratio = 5.0 if node_type in ("corridor", "corridor_link") else 1.5
+        aspect = node.get("aspect_ratio", default_ratio)
+        # area = width * depth, aspect = depth / width → width = sqrt(area / aspect)
+        width = math.sqrt(area / aspect)
+        depth = area / width
+        logger.warning(
+            "Node %s: no explicit width/depth, using fallback (aspect=%.1f)",
+            node["node_id"], aspect,
+        )
+
     return f"&COMP ID='{node['node_id']}' DEPTH={depth:.2f} HEIGHT={height:.2f} WIDTH={width:.2f} /\n"
 
 

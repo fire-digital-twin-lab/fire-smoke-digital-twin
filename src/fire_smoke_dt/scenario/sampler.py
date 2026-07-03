@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import math
 import random
 from collections.abc import Mapping, Sequence
 from itertools import product
@@ -46,24 +45,11 @@ def sample_scenarios(
     *,
     count: int,
     seed: int,
-    max_cartesian_before_sample: int = 10_000,
 ) -> list[dict[str, Any]]:
     """Sample scenarios from the Cartesian product of factors.
-    
-    Uses reservoir sampling to avoid materializing the entire product in memory
-    if the Cartesian size exceeds `max_cartesian_before_sample`.
+
+    Always uses reservoir sampling — no materialization regardless of size.
     """
     total = _estimate_cartesian_size(factors)
-    
-    if total > max_cartesian_before_sample:
-        return _lazy_sample(factors, count, seed)
-        
-    keys = list(factors)
-    candidates = [
-        dict(zip(keys, values, strict=True)) for values in product(*(factors[k] for k in keys))
-    ]
-    rng = random.Random(seed)
-    if count >= len(candidates):
-        rng.shuffle(candidates)
-        return candidates
-    return rng.sample(candidates, count)
+    effective_count = min(count, total)
+    return _lazy_sample(factors, effective_count, seed)

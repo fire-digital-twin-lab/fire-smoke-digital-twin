@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import concurrent.futures
+import logging
 import subprocess
+from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Sequence
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -16,6 +19,17 @@ class RunResult:
     stderr: str
     elapsed_timeout: bool = False
     scenario_id: str = ""
+
+
+def verify_binary(binary: str | Path) -> None:
+    """Check that the CFAST binary exists and is executable."""
+    path = Path(binary)
+    if not path.exists():
+        raise FileNotFoundError(f"CFAST binary not found: {path}")
+    try:
+        subprocess.run([str(path), "-v"], capture_output=True, timeout=10, check=False)
+    except OSError as exc:
+        raise RuntimeError(f"CFAST binary not executable: {path}") from exc
 
 
 def run_case(
@@ -58,6 +72,7 @@ def run_batch(
     inputs should be a list of tuples containing (scenario_id, input_file_path).
     Supports resume by only providing the remaining inputs to run.
     """
+    verify_binary(binary)
     results: list[RunResult] = []
     
     with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:

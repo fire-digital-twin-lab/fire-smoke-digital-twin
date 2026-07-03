@@ -1,11 +1,8 @@
 """Tests for CFAST batch runner."""
 
-import sys
-from pathlib import Path
-
 import pytest
 
-from fire_smoke_dt.cfast_sim.batch_runner import run_case, run_batch
+from fire_smoke_dt.cfast_sim.batch_runner import run_batch, run_case
 
 
 def test_run_case_success(tmp_path):
@@ -38,3 +35,15 @@ def test_run_batch_parallel(tmp_path):
         assert r.returncode == 0
         assert "Done" in r.stdout
         assert r.scenario_id.startswith("S")
+
+
+def test_verify_binary_missing():
+    from fire_smoke_dt.cfast_sim.batch_runner import verify_binary
+    with pytest.raises(FileNotFoundError, match="CFAST binary not found"):
+        verify_binary("nonexistent_binary_path_xyz")
+
+
+def test_run_batch_fails_fast_with_missing_binary(tmp_path):
+    inputs = [("S1", tmp_path / "dummy.in")]
+    with pytest.raises(FileNotFoundError):
+        run_batch("nonexistent_binary_path_xyz", inputs)

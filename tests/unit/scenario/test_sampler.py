@@ -9,7 +9,7 @@ def test_sampler_no_cartesian_explosion():
     factors = {f"f{i}": [1, 2, 3, 4] for i in range(10)}
     
     # We sample just 10 scenarios
-    samples = sample_scenarios(factors, count=10, seed=42, max_cartesian_before_sample=10_000)
+    samples = sample_scenarios(factors, count=10, seed=42)
     
     assert len(samples) == 10
     

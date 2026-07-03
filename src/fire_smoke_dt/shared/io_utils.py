@@ -12,7 +12,7 @@ from .paths import get_producer_version
 from .schema import ArtifactEnvelope
 
 
-def make_envelope(payload: dict[str, Any], config: dict[str, Any], *, schema_version: str) -> ArtifactEnvelope:
+def make_envelope(payload: dict[str, Any], config: dict[str, Any], *, schema_version: str, units: dict[str, str]) -> ArtifactEnvelope:
     import datetime
     import hashlib
 
@@ -25,6 +25,7 @@ def make_envelope(payload: dict[str, Any], config: dict[str, Any], *, schema_ver
         producer_version=get_producer_version(),
         config_hash=config_hash,
         created_at=datetime.datetime.now(datetime.UTC).isoformat(),
+        units=units,
         payload=payload,
     )
 
