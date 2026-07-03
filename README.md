@@ -18,7 +18,7 @@ Prototype nghiên cứu end-to-end cho bài toán dự báo lan truyền khói c
 ## Cấu trúc chính
 
 ```text
-configs/                     Hợp đồng cấu hình dùng chung
+configs/                     Cấu hình dùng chung
 src/fire_smoke_dt/shared/    Schema, I/O, validation, label logic
 src/fire_smoke_dt/bim_graph/ IFC -> graph
 src/fire_smoke_dt/scenario/  Catalog kịch bản có kiểm soát
