@@ -24,6 +24,15 @@
 - IoT phần cứng thật, ASET/RSET đầy đủ, mô hình thoát nạn.
 - `smoke_path` hoàn chỉnh hoặc 8-12 case FDS.
 
+## Deferred / Known Limitations (cập nhật 2026-07-03, A)
+
+- **Compartment bbox/geometry (P1):** `input_writer.py` hiện dùng `aspect_ratio` fallback
+  (mặc định 1.5 cho phòng, 5.0 cho hành lang) thay vì bounding box thật từ IFC.
+  Bổ sung `width_m`/`depth_m` thật từ `IfcSpace` geometry sẽ làm ở Giai đoạn 1
+  khi `bim_graph/ifc_parser.py` hỗ trợ `ifcopenshell.geom`.
+  Quyết định bởi: Trần Phùng Đức Anh. Lý do: Sprint 0 tập trung nền tảng shared,
+  không block bởi dependency `ifcopenshell.geom`.
+
 ## Mốc go/no-go tuần 10
 
 Chỉ giữ P1/P2 khi đồng thời có:

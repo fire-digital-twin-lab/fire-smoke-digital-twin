@@ -1,9 +1,16 @@
-"""Logging configuration for scripts and batch runners."""
-
+"""DEPRECATED: nội dung thật đã chuyển sang shared/logging.py.
+Giữ file này 1 sprint để không phá import cũ, sẽ xoá sau khi xác nhận
+không còn nơi nào import từ logging_utils.
+"""
 from __future__ import annotations
 
-import logging
+import warnings
 
+from fire_smoke_dt.shared.logging import *  # noqa: F401,F403
 
-def configure_logging(level: int = logging.INFO) -> None:
-    logging.basicConfig(level=level, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+warnings.warn(
+    "fire_smoke_dt.shared.logging_utils is deprecated; import from "
+    "fire_smoke_dt.shared.logging instead.",
+    DeprecationWarning,
+    stacklevel=2,
+)

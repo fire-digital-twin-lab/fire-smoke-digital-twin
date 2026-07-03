@@ -14,5 +14,7 @@ jobs:
           python-version: "3.11"
       - run: python -m pip install --upgrade pip
       - run: pip install -e ".[dev]"
+      - run: pip check
       - run: ruff check src tests dashboard/backend
-      - run: pytest -m "not external and not slow"
+      - run: python -m compileall src tests -q
+      - run: pytest -m "not external and not slow and not requires_cfast_binary"

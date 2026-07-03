@@ -1,0 +1,16 @@
+version: "0.1.0"
+fire_growth_class:
+  slow:   {alpha_kW_s2: 0.00293, t_peak_s: 600}
+  medium: {alpha_kW_s2: 0.01172, t_peak_s: 300}
+  fast:   {alpha_kW_s2: 0.04689, t_peak_s: 150}
+soot_yield_kg_per_kg:
+  low:    0.010
+  medium: 0.040
+  high:   0.100
+hrr_peak_kW:
+  range: [100, 500, 1000, 2000]
+door_state:    [open, closed, half_open]
+sprinkler_state: [on, off]
+exhaust_state:   [on, off]
+t_end_s:       [600, 900, 1200]
+dt_out_s:      1.0

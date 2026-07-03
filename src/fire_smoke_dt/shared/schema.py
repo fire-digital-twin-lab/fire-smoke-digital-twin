@@ -66,3 +66,12 @@ class ScenarioMetadata(BaseModel):
     t_end_s: float = Field(gt=0)
     dt_out_s: float = Field(gt=0)
     config: dict[str, Any] = Field(default_factory=dict)
+
+
+class ArtifactEnvelope(BaseModel):
+    schema_version: str
+    producer_version: str
+    config_hash: str
+    created_at: str
+    units: dict[str, str]
+    payload: dict[str, Any]

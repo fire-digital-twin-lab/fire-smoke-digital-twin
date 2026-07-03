@@ -34,6 +34,7 @@ pythonpath = ["src", "."]
 markers = [
   "external: requires CFAST/FDS or other external binaries",
   "slow: long-running research test",
+  "requires_cfast_binary: requires CFAST executable (set CFAST_BINARY env var)",
 ]
 
 [tool.ruff]
