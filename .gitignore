@@ -46,3 +46,4 @@ outputs/*
 # Frontend
 node_modules/
 dashboard/frontend/dist/
+.venv/
